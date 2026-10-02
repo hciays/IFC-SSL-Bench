@@ -1,0 +1,131 @@
+# -----------------------
+#   Paths
+# -----------------------
+
+# set paths to output and datasets directories. relative to where the run script is started from.
+# directory where the logs and checkpoints should be stored (e.g., project root)
+out_dir: ""  
+# path to root dataset directories (all datasets should be in the same directoy) (e.g., project root/datasets)
+data_dir: ""  # "/srv/ifc_data"
+
+# -----------------------
+#   Hyperparams
+# -----------------------
+
+test:
+    batch_size: 32
+    emb_dim: 32
+    max_epochs: 2
+    # nr_samples: 300
+
+max_epochs: 200
+batch_size: 128
+emb_dim: 256
+
+# -----------------------
+
+Supervised:
+    lr: 0.001
+
+SimCLR:
+    lr: [0.15, 1e-4]  # batch norm vs. layer norm (i.e., resnet vs. convnext/vit)
+    lr_head: [0.15, 1.e-3]
+    temperature: 0.2
+    weight_decay: [1e-6, 0.1]
+
+MoCoV2:
+    lr: [0.015, 3e-4]
+    lr_head: [0.015, 1.e-3]
+    temperature: 0.2
+    momentum: [0.99, 0.996]
+    memory_bank: 65536
+    weight_decay: [1e-4, 0.1]
+
+MoCoV3:
+    lr: [0.015, 3e-4]
+    lr_head: [0.015, 1.e-3]
+    temperature: 0.2
+    momentum: [0.99, 0.996]
+    weight_decay: [1e-4, 0.1]
+
+BYOL:
+    lr: [0.15, 3e-4]
+    lr_head: [0.15, 1.e-3]
+    momentum: [0.99, 0.996]
+    weight_decay: [1.5e-6, 0.1]
+
+BarlowTwins:  # paper uses much larger batches
+    lr: [0.15, 3e-4]
+    lr_head: [0.15, 1.e-3]
+    weight_decay: [1.5e-6, 0.1]
+
+DINO:
+    lr: [0.015, 3e-4]
+    lr_head: [0.015, 1.e-3]
+    bottleneck: 64
+    momentum: [0.99, 0.996]
+    weight_decay: [1e-4, 0.1]
+
+# -----------------------
+#   Datasets
+# -----------------------
+
+BloodMNIST:
+    img_size: 224  # 28, 64, 128, 224
+    nr_chs: 3
+    channels: [0, 1, 2]
+    z-score:
+        none:
+            mean: [0.7943, 0.6597, 0.6962]
+            std: [0.2156, 0.2416, 0.1179]
+
+RBC_Dataset:
+    img_size: 48
+    nr_chs: 3
+    channels: [Ch1, Ch9, Ch12]
+    extension: .ome.tif
+    z-score:
+        none:
+            mean: [154.1981, 154.5939, 3.6049]
+            std: [35.2127, 30.6978, 9.3644]
+
+
+Immuno_Synapses:
+    img_size: 224
+    nr_chs: 9
+    channels: [0, 3, 4, 5, 6]
+    extension: .h5
+    experiments: []
+    donors: []
+    z-score:
+        none:
+            mean: [801.9078, 0, 0, 70.8534, 78.1023, 71.2593, 39.9978, 0, 0]
+            std: [34.2035, 0, 0, 139.9694, 117.1720, 82.8727, 6.3033, 0, 0]
+
+# -----------------------
+#   Image Augmentations
+# -----------------------
+
+transform:  # original: simclr, byol, dino (moco uses simclr, bt uses byol transforms)
+    hf_prob: 0.5  # 0.5
+    vf_prob: 0.5  # none
+    rrc_scale: [0.08, 0.4, 1]  #  0.08    0.08    none    [0.4, 1]
+    
+    ra_degrees: 180.0  # none
+    ra_trans: [0.15, 0.15]  # none
+    ra_shear: [0, 0]  # none
+    
+    gb_prob: [1.0, 0.5, 0.1] # 0.5  [1, 0.1]   0.5   [1.0, 0.1, 0.5]
+    gb_kernel: 23  # none
+    gb_sigmas: [0.1, 2]
+    gn_prob: 0.2  # none
+    gn_sigmas: 0.1  # none
+
+    local_rrc_scale: [0.05, 0.4]
+    nr_views: [2, 4] # - global, local
+    local_views: 6  # dino
+    crop_min_scales: [0.14, 0.05]
+    crop_max_scales: [1.0, 0.14]
+
+    global_size: 224
+    local_size: 96
