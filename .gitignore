@@ -1,0 +1,51 @@
+# ==========================================
+# macOS / OS X 
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# Code editors & IDEs
+# ==========================================
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# ==========================================
+# Python & Jupyter Notebooks
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# ==========================================
+# Data, Logs & Tracking (Machine Learning)
+# ==========================================
+/datasets/
+/MNIST/
+/wandb/
+logs/
+check_pts/
+*.log
+*.tmp
+*.bak
+.swp
+.swo
+
+# ==========================================
+# SSecurity & Environment Variables
+# ==========================================
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
